@@ -98,14 +98,14 @@ Item {
         interiorOpacity:    0.5
     }
 
-    // Survey grid lines
+    // Survey grid lines                    //cy128  Survey modle 下 绘制格子线
     Component {
         id: gridComponent
 
         MapPolyline {
             line.color: "white"
             line.width: 2
-            path:       _missionItem.gridPoints
+            path:       _missionItem.gridPoints    //cy128  对应SurveyMissionItem.cc下SurveyMissionItem对象下功能函数
         }
     }
 
@@ -122,7 +122,7 @@ Item {
 
             sourceItem: MissionItemIndexLabel {
                 index:      _missionItem.sequenceNumber
-                label:      "Entry"
+                label:      "Entry"                     //cy128   survey模式下弹出 Entry对应点
                 checked:    _missionItem.isCurrentItem
                 onClicked:  _root.clicked(_missionItem.sequenceNumber)
             }
