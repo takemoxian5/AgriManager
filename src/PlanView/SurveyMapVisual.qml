@@ -64,8 +64,8 @@ Item {
             var bottomRightCoord =  map.toCoordinate(Qt.point(rect.x + rect.width, rect.y + rect.height),               false /* clipToViewPort */)
 
             // Initial polygon has max width and height of 3000 meters
-            var halfWidthMeters =   Math.min(topLeftCoord.distanceTo(topRightCoord), 3000) / 2
-            var halfHeightMeters =  Math.min(topLeftCoord.distanceTo(bottomLeftCoord), 3000) / 2
+            var halfWidthMeters =   Math.min(topLeftCoord.distanceTo(topRightCoord), 1000) / 2
+            var halfHeightMeters =  Math.min(topLeftCoord.distanceTo(bottomLeftCoord), 1000) / 2
             topLeftCoord =      centerCoord.atDistanceAndAzimuth(halfWidthMeters, -90).atDistanceAndAzimuth(halfHeightMeters, 0)
             topRightCoord =     centerCoord.atDistanceAndAzimuth(halfWidthMeters, 90).atDistanceAndAzimuth(halfHeightMeters, 0)
             bottomLeftCoord =   centerCoord.atDistanceAndAzimuth(halfWidthMeters, -90).atDistanceAndAzimuth(halfHeightMeters, 180)
@@ -122,7 +122,7 @@ Item {
 
             sourceItem: MissionItemIndexLabel {
                 index:      _missionItem.sequenceNumber
-                label:      "Entry"                     //cy128   survey模式下弹出 Entry对应点
+                label:      "起点"                     //cy128   survey模式下弹出 Entry对应点
                 checked:    _missionItem.isCurrentItem
                 onClicked:  _root.clicked(_missionItem.sequenceNumber)
             }
@@ -142,7 +142,7 @@ Item {
 
             sourceItem: MissionItemIndexLabel {
                 index:      _missionItem.lastSequenceNumber
-                label:      "Exit"
+                label:      "终点"
                 checked:    _missionItem.isCurrentItem
                 onClicked:  _root.clicked(_missionItem.sequenceNumber)
             }
