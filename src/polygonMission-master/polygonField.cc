@@ -1,6 +1,7 @@
 ﻿#include "polygonField.h"
 #include "calculateGeometry.h"
 #include <QDebug>
+
 //自定义输出语句, 控制输出精度、格式
 #define GeoOut(a) qDebug()<<QString::number((a.latitude()), 'f' , 16)<<QString::number((a.longitude()), 'f' , 16)
 #define XYOut(a) qDebug()<<QString::number(a.first, 'f', 16) << QString::number(a.second, 'f', 16)

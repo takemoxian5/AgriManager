@@ -64,8 +64,8 @@ Item {
             var bottomRightCoord =  map.toCoordinate(Qt.point(rect.x + rect.width, rect.y + rect.height),               false /* clipToViewPort */)
 
             // Initial polygon has max width and height of 3000 meters
-            var halfWidthMeters =   Math.min(topLeftCoord.distanceTo(topRightCoord), 1000) / 2
-            var halfHeightMeters =  Math.min(topLeftCoord.distanceTo(bottomLeftCoord), 1000) / 2
+            var halfWidthMeters =   Math.min(topLeftCoord.distanceTo(topRightCoord), 400) / 2
+            var halfHeightMeters =  Math.min(topLeftCoord.distanceTo(bottomLeftCoord), 400) / 2
             topLeftCoord =      centerCoord.atDistanceAndAzimuth(halfWidthMeters, -90).atDistanceAndAzimuth(halfHeightMeters, 0)
             topRightCoord =     centerCoord.atDistanceAndAzimuth(halfWidthMeters, 90).atDistanceAndAzimuth(halfHeightMeters, 0)
             bottomLeftCoord =   centerCoord.atDistanceAndAzimuth(halfWidthMeters, -90).atDistanceAndAzimuth(halfHeightMeters, 180)

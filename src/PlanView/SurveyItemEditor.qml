@@ -323,7 +323,7 @@ Rectangle {
                     anchors.left:   parent.left
                     anchors.right:  parent.right
                     spacing:        _margin
-                    QGCLabel { text: qsTr("Sensor"); Layout.fillWidth: true }
+                    QGCLabel { text: qsTr("传感器"); Layout.fillWidth: true }
                     FactTextField {
                         Layout.preferredWidth:  _root._fieldWidth
                         fact:                   missionItem.cameraSensorWidth
@@ -634,7 +634,26 @@ Rectangle {
             visible:        statsHeader.checked
 
             QGCLabel { text: qsTr("测量面积") }
-            QGCLabel { text: QGroundControl.squareMetersToAppSettingsAreaUnits(missionItem.coveredArea).toFixed(2) + " " + QGroundControl.appSettingsAreaUnitsString }
+    //    QGCLabel { text: QGroundControl.squareMetersToAppSettingsAreaUnits(missionItem.coveredArea).toFixed(2) + " " + QGroundControl.appSettingsAreaUnitsString }
+   //G201709261286 ChenYang  显示精度修改
+            QGCLabel {
+                text: {
+                    var squaretemp = QGroundControl.squareMetersToAppSettingsAreaUnits(missionItem.coveredArea)
+                     var squaretempH = (squaretemp/1000)
+                    squaretemp=squaretemp%1000+0.4 //偏小0.4
+                                 if(squaretemp.toFixed(0)&&squaretemp.toFixed(0)!=1000 ){
+                                      //高位不能四舍五入进位，只是去除小数,低位进位后为000才能真进位
+//                                     if(squaretemp.toFixed(0)==1000 ){
+//                                    return (squaretempH).toFixed(0)+ ", "+squaretemp.toFixed(0) + " "+ QGroundControl.appSettingsAreaUnitsString
+//                                     }
+                                     //无进位
+                                        return  (squaretempH-0.6).toFixed(0)+ ", "+squaretemp.toFixed(1) + " "+ QGroundControl.appSettingsAreaUnitsString
+                                 }
+                                 //进位
+                                return squaretempH.toFixed(0)+ ", " +"000.0"+ " "+ QGroundControl.appSettingsAreaUnitsString
+                        }
+                     }
+
 
             QGCLabel { text: qsTr("拍照数量") }
             QGCLabel { text: missionItem.cameraShots }

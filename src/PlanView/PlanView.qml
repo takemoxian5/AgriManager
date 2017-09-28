@@ -326,13 +326,13 @@ QGCView {
                 //-- It's a whole lot faster to just fill parent and deal with top offset below
                 //   than computing the coordinate offset.
                 anchors.fill: parent
-                onClicked: {
+                onClicked: { //G201709281286 ChenYang 鼠标点击 动作
                     //-- Don't pay attention to items beneath the toolbar.
                     var topLimit = parent.height - ScreenTools.availableHeight
                     if(mouse.y < topLimit) {
                         return
                     }
-
+					//转化为地图对应坐标
                     var coordinate = editorMap.toCoordinate(Qt.point(mouse.x, mouse.y), false /* clipToViewPort */)
                     coordinate.latitude = coordinate.latitude.toFixed(_decimalPlaces)
                     coordinate.longitude = coordinate.longitude.toFixed(_decimalPlaces)
@@ -340,7 +340,7 @@ QGCView {
 
                     switch (_editingLayer) {
                     case _layerMission:
-                        if (_addWaypointOnClick) {
+                        if (_addWaypointOnClick) {                  //添加航点模式（模式0） 开启
                             insertSimpleMissionItem(coordinate, _missionController.visualItems.count)
                         }
                         break
@@ -404,7 +404,7 @@ QGCView {
                 anchors.topMargin:  _toolButtonTopMargin
                 anchors.top:        parent.top
                 color:              qgcPal.window
-                title:              qsTr("Plan")
+                title:              qsTr("飞行计划")
                 z:                  QGroundControl.zOrderWidgets
                 showAlternateIcon:  [ false, false, masterController.dirty, false, false, false ]
                 rotateImage:        [ false, false, masterController.syncInProgress, false, false, false ]
@@ -417,33 +417,38 @@ QGCView {
 
                 model: [
                     {
-                        name:       "Waypoint",
+                        name:            "放置航点",
                         iconSource: "/qmlimages/MapAddMission.svg",
                         toggle:     true
                     },
                     {
-                        name:               _singleComplexItem ? _missionController.complexMissionItemNames[0] : "Pattern",
+                        name:              "放置区域", // _singleComplexItem ? _missionController.complexMissionItemNames[0] : "Pattern",
                         iconSource:         "/qmlimages/MapDrawShape.svg",
                         dropPanelComponent: _singleComplexItem ? undefined : patternDropPanel
                     },
                     {
-                        name:                   "Sync",
+                        name:                   "同步",
                         iconSource:             "/qmlimages/MapSync.svg",
                         alternateIconSource:    "/qmlimages/MapSyncChanged.svg",
                         dropPanelComponent:     syncDropPanel
                     },
                     {
-                        name:               "Center",
+                        name:               "地图中心",
                         iconSource:         "/qmlimages/MapCenter.svg",
                         dropPanelComponent: centerMapDropPanel
                     },
                     {
-                        name:               "In",
+                        name:               "放大",
                         iconSource:         "/qmlimages/ZoomPlus.svg"
                     },
                     {
-                        name:               "Out",
+                        name:               "缩小",
                         iconSource:         "/qmlimages/ZoomMinus.svg"
+                    },
+                    {
+                        name:              "生成区域", // _singleComplexItem ? _missionController.complexMissionItemNames[0] : "Pattern",
+                        iconSource:         "/qmlimages/MapDrawShape.svg",
+                        dropPanelComponent: _singleComplexItem ? undefined : patternDropPanel
                     }
                 ]
 
@@ -454,7 +459,7 @@ QGCView {
                         break
                     case 1:
                         if (_singleComplexItem) {
-                            addComplexItem(_missionController.complexMissionItemNames[0])
+                            addComplexItem(_missionController.complexMissionItemNames[0]) //CY128 Survey图标对应功能
                         }
                         break
                     case 4:
@@ -462,6 +467,11 @@ QGCView {
                         break
                     case 5:
                         editorMap.zoomLevel -= 0.5
+                        break
+                    case 6:
+                        if (_singleComplexItem) {
+                            addComplexItem(_missionController.complexMissionItemNames[0]) //CY128 Survey图标对应功能
+                        }
                         break
                     }
                 }
@@ -514,7 +524,7 @@ QGCView {
                 QGCRadioButton {
                     id:             planElementMission
                     exclusiveGroup: planElementSelectorGroup
-                    text:           qsTr("Mission")
+                    text:           qsTr("飞行任务")
                     checked:        true
                     color:          mapPal.text
                     textStyle:      Text.Outline
