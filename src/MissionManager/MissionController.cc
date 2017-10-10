@@ -328,7 +328,7 @@ int MissionController::insertSimpleMissionItem(QGeoCoordinate coordinate, int i)
     SimpleMissionItem * newItem = new SimpleMissionItem(_controllerVehicle, this);
     newItem->setSequenceNumber(sequenceNumber);
     newItem->setCoordinate(coordinate);
-    newItem->setCommand(MavlinkQmlSingleton::MAV_CMD_NAV_WAYPOINT);
+    newItem->setCommand(MavlinkQmlSingleton::MAV_CMD_NAV_WAYPOINT);//CY128  默认参数设置，两点直飞模式
     _initVisualItem(newItem);
     if (_visualItems->count() == 1) {
         newItem->setCommand(_controllerVehicle->vtol() ? MavlinkQmlSingleton::MAV_CMD_NAV_VTOL_TAKEOFF : MavlinkQmlSingleton::MAV_CMD_NAV_TAKEOFF);
@@ -383,6 +383,7 @@ int MissionController::insertComplexMissionItem(QString itemName, QGeoCoordinate
         qWarning() << "Internal error: Unknown complex item:" << itemName;
         return sequenceNumber;
     }
+	
     newItem->setSequenceNumber(sequenceNumber);
     _initVisualItem(newItem);
 

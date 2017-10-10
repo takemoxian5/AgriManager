@@ -119,9 +119,9 @@ Rectangle {
                     }
                 } // GridLayout
             }
-
             CameraSection {
                 id:         cameraSection
+                visible:       _missionVehicle.vtol                        //G201710101286 ChenYang   切换隐藏，待更换标志位
                 checked:    missionItem.cameraSection.settingsSpecified
             }
 
@@ -134,6 +134,23 @@ Rectangle {
                 font.pointSize:         ScreenTools.smallFontPointSize
                 visible:                cameraSection.checked
             }
+//Start G201710101286 ChenYang   植保设置
+            AgriSection {
+                id:         AgriSection
+                visible:       _missionVehicle.vtol                        //G201710101286 ChenYang   切换隐藏，待更换标志位
+                checked:    missionItem.AgriSection.settingsSpecified
+            }
+
+            QGCLabel {
+                anchors.left:           parent.left
+                anchors.right:          parent.right
+                text:                   qsTr("ok")
+                wrapMode:               Text.WordWrap
+                horizontalAlignment:    Text.AlignHCenter
+                font.pointSize:         ScreenTools.smallFontPointSize
+                visible:                AgriSection.checked
+            }
+//End G201710101286 ChenYang 
 
             SectionHeader {
                 id:         missionEndHeader
@@ -145,7 +162,7 @@ Rectangle {
                 anchors.left:   parent.left
                 anchors.right:  parent.right
                 spacing:        _margin
-                visible:        missionEndHeader.checked
+                visible:        missionEndHeader.checked    //G201710101286 ChenYang  默认隐藏，点击出现
 
                 QGCCheckBox {
                     text:       qsTr("Return To Launch")
@@ -240,7 +257,7 @@ Rectangle {
                     columns:        2
 
                     QGCLabel {
-                        text: qsTr("Altitude")
+                        text: qsTr("高度")
                     }
                     FactTextField {
                         fact:               missionItem.plannedHomePositionAltitude
@@ -258,6 +275,7 @@ Rectangle {
 
                 QGCButton {
                     text:                       qsTr("Set Home To Map Center")
+                    //G201710101286 ChenYang 点击触发动作：任务坐标置位 为地图中心
                     onClicked:                  missionItem.coordinate = map.center
                     anchors.horizontalCenter:   parent.horizontalCenter
                 }

@@ -56,7 +56,7 @@
         <file alias="QGroundControl/Controls/DropButton.qml">src/QmlControls/DropButton.qml</file>
         <file alias="QGroundControl/Controls/ExclusiveGroupItem.qml">src/QmlControls/ExclusiveGroupItem.qml</file>
         <file alias="QGroundControl/Controls/FactSliderPanel.qml">src/QmlControls/FactSliderPanel.qml</file>
-		<file alias="QGroundControl/Controls/FileButton.qml">src/QmlControls/FileButton.qml</file>
+        <file alias="QGroundControl/Controls/FileButton.qml">src/QmlControls/FileButton.qml</file>
         <file alias="QGroundControl/Controls/FlightModeDropdown.qml">src/QmlControls/FlightModeDropdown.qml</file>
         <file alias="QGroundControl/Controls/FlightModeMenu.qml">src/QmlControls/FlightModeMenu.qml</file>
         <file alias="QGroundControl/Controls/FWLandingPatternMapVisual.qml">src/PlanView/FWLandingPatternMapVisual.qml</file>
@@ -73,7 +73,7 @@
         <file alias="QGroundControl/Controls/MissionItemStatus.qml">src/PlanView/MissionItemStatus.qml</file>
         <file alias="QGroundControl/Controls/ModeSwitchDisplay.qml">src/QmlControls/ModeSwitchDisplay.qml</file>
         <file alias="QGroundControl/Controls/MultiRotorMotorDisplay.qml">src/QmlControls/MultiRotorMotorDisplay.qml</file>
-		<file alias="QGroundControl/Controls/NoMouseThroughRectangle.qml">src/QmlControls/NoMouseThroughRectangle.qml</file>
+        <file alias="QGroundControl/Controls/NoMouseThroughRectangle.qml">src/QmlControls/NoMouseThroughRectangle.qml</file>
         <file alias="QGroundControl/Controls/OfflineMapButton.qml">src/QmlControls/OfflineMapButton.qml</file>
         <file alias="QGroundControl/Controls/PageView.qml">src/QmlControls/PageView.qml</file>
         <file alias="QGroundControl/Controls/ParameterEditor.qml">src/QmlControls/ParameterEditor.qml</file>
@@ -91,7 +91,7 @@
         <file alias="QGroundControl/Controls/QGCLabel.qml">src/QmlControls/QGCLabel.qml</file>
         <file alias="QGroundControl/Controls/QGCListView.qml">src/QmlControls/QGCListView.qml</file>
         <file alias="QGroundControl/Controls/QGCMapLabel.qml">src/QmlControls/QGCMapLabel.qml</file>
-		<file alias="QGroundControl/Controls/QGCMapCircleVisuals.qml">src/MissionManager/QGCMapCircleVisuals.qml</file>
+        <file alias="QGroundControl/Controls/QGCMapCircleVisuals.qml">src/MissionManager/QGCMapCircleVisuals.qml</file>
         <file alias="QGroundControl/Controls/QGCMapPolygonVisuals.qml">src/MissionManager/QGCMapPolygonVisuals.qml</file>
         <file alias="QGroundControl/Controls/QGCMouseArea.qml">src/QmlControls/QGCMouseArea.qml</file>
         <file alias="QGroundControl/Controls/QGCMovableItem.qml">src/QmlControls/QGCMovableItem.qml</file>
@@ -191,6 +191,7 @@
         <file alias="ValuePageWidget.qml">src/FlightMap/Widgets/ValuePageWidget.qml</file>
         <file alias="HealthPageWidget.qml">src/FlightMap/Widgets/HealthPageWidget.qml</file>
         <file alias="VibrationPageWidget.qml">src/FlightMap/Widgets/VibrationPageWidget.qml</file>
+        <file>src/PlanView/CameraMissionSettingsEditor.qml</file>
     </qresource>
     <qresource prefix="/json">
         <file alias="MavCmdInfoCommon.json">src/MissionManager/MavCmdInfoCommon.json</file>
@@ -203,7 +204,7 @@
         <file alias="AutoConnect.SettingsGroup.json">src/Settings/AutoConnect.SettingsGroup.json</file>
         <file alias="FlightMap.SettingsGroup.json">src/Settings/FlightMap.SettingsGroup.json</file>
         <file alias="Guided.SettingsGroup.json">src/Settings/Guided.SettingsGroup.json</file>
-		<file alias="QGCMapCircle.Facts.json">src/MissionManager/QGCMapCircle.Facts.json</file>
+        <file alias="QGCMapCircle.Facts.json">src/MissionManager/QGCMapCircle.Facts.json</file>
         <file alias="RTK.SettingsGroup.json">src/Settings/RTK.SettingsGroup.json</file>
         <file alias="Survey.SettingsGroup.json">src/MissionManager/Survey.SettingsGroup.json</file>
         <file alias="Units.SettingsGroup.json">src/Settings/Units.SettingsGroup.json</file>

@@ -645,7 +645,7 @@ void SimpleMissionItem::setDefaultsForCommand(void)
 
     case MAV_CMD_NAV_LAND:
     case MAV_CMD_NAV_VTOL_LAND:
-        _missionItem.setParam7(0);
+        _missionItem.setParam7(0);    //设置高度
         break;
     default:
         break;

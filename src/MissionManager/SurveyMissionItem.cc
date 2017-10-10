@@ -719,6 +719,9 @@ void SurveyMissionItem::_generateGrid(void)
             coveredArea += polygonPoints.last().x() * polygonPoints[i].y() - polygonPoints[i].x() * polygonPoints.last().y();
         }
     }
+
+
+
     _setCoveredArea(0.5 * fabs(coveredArea));
 
     // Generate grid
@@ -1238,7 +1241,7 @@ bool SurveyMissionItem::_appendMissionItemsWorker(QList<MissionItem*>& items, QO
 
         // Add polygon entry point
         if (!_nextTransectCoord(segment, pointIndex++, coord)) {
-            return false;
+            return  false;
         }
         if (firstWaypointTrigger) {
             cameraTrigger = CameraTriggerOn;

@@ -1,6 +1,7 @@
 ﻿#include "polygonField.h"
 #include "calculateGeometry.h"
 #include <QDebug>
+
 //自定义输出语句, 控制输出精度、格式
 #define GeoOut(a) qDebug()<<QString::number((a.latitude()), 'f' , 16)<<QString::number((a.longitude()), 'f' , 16)
 #define XYOut(a) qDebug()<<QString::number(a.first, 'f', 16) << QString::number(a.second, 'f', 16)
@@ -34,7 +35,7 @@ void polygonField::setCorner( QGeoCoordinate &cornerPoint)
 void polygonField::setSideLines()
 {
     for(int i = 0; i < m_cornerList.size(); i++){
-        if(i ==(m_cornerList.size() - 1)){
+        if(i ==(m_cornerList.size() - 1)){   //当前点i连接后一点i+1，最后一点的后一点即0点
             m_sideLineList.append(new wayPointLine(m_cornerXYList.at(i), m_cornerXYList.at(0)));
         } else {
             m_sideLineList.append( new wayPointLine(m_cornerXYList.at(i), m_cornerXYList.at(i + 1)));
