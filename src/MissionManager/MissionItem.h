@@ -33,6 +33,11 @@ class MissionController;
     class MissionItemTest;
 #endif
 
+
+
+ #define Add_AgriSection      //G201710111282 ChenYang 添加AgriSection  模块
+
+
 // Represents a Mavlink mission command.
 class MissionItem : public QObject
 {

@@ -54,6 +54,9 @@ SimpleMissionItem::SimpleMissionItem(Vehicle* vehicle, QObject* parent)
     , _ignoreDirtyChangeSignals(false)
     , _speedSection(NULL)
     , _cameraSection(NULL)
+#ifdef Add_AgriSection_Simple
+    , _agriSection(NULL)
+#endif
     , _commandTree(qgcApp()->toolbox()->missionCommandTree())
     , _altitudeRelativeToHomeFact   (0, "Altitude is relative to home", FactMetaData::valueTypeUint32)
     , _supportedCommandFact         (0, "Command:",                     FactMetaData::valueTypeUint32)
@@ -747,6 +750,9 @@ void SimpleMissionItem::_updateOptionalSections(void)
 
     _cameraSection = new CameraSection(_vehicle, this);
     _speedSection = new SpeedSection(_vehicle, this);
+#ifdef Add_AgriSection_Simple     //G201710111282 ChenYang  Add new sections
+	_agriSection = new AgriSection(_vehicle, this);
+#endif
     if ((MAV_CMD)command() == MAV_CMD_NAV_WAYPOINT) {
         _cameraSection->setAvailable(true);
         _speedSection->setAvailable(true);

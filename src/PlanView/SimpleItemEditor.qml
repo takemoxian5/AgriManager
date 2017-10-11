@@ -137,5 +137,11 @@ Rectangle {
             checked:    missionItem.cameraSection.settingsSpecified
             visible:    missionItem.cameraSection.available
         }
+#ifdef Add_AgriSection       //G201710111282 ChenYang 
+ 		AgriSection {
+            checked:    missionItem.agriSection.settingsSpecified
+            visible:    missionItem.agriSection.available
+        }
+#endif  //end of Add_AgriSection
     } // Column
 } // Rectangle

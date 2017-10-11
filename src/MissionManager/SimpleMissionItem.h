@@ -17,6 +17,10 @@
 #include "CameraSection.h"
 #include "SpeedSection.h"
 
+#ifdef  Add_AgriSection_Simple
+#include "AgriSection.h"
+#endif   
+
 /// A SimpleMissionItem is used to represent a single MissionItem to the ui.
 class SimpleMissionItem : public VisualMissionItem
 {

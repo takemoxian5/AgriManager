@@ -192,6 +192,8 @@
         <file alias="HealthPageWidget.qml">src/FlightMap/Widgets/HealthPageWidget.qml</file>
         <file alias="VibrationPageWidget.qml">src/FlightMap/Widgets/VibrationPageWidget.qml</file>
         <file>src/PlanView/CameraMissionSettingsEditor.qml</file>
+        <file>src/PlanView/AgriSection.qml</file>
+        <file>src/PlanView/AgriMissionSettingsEditor.qml</file>
     </qresource>
     <qresource prefix="/json">
         <file alias="MavCmdInfoCommon.json">src/MissionManager/MavCmdInfoCommon.json</file>

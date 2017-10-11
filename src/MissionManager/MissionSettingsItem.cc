@@ -36,6 +36,9 @@ MissionSettingsItem::MissionSettingsItem(Vehicle* vehicle, QObject* parent)
     , _speedSection                     (vehicle)
     , _sequenceNumber                   (0)
     , _dirty                            (false)
+#ifdef Add_AgriSection       //G201710111282 ChenYang  1构造函数
+    , _agriSection                    (vehicle)
+#endif  //end of Add_AgriSection
 {
     _editorQml = "qrc:/qml/MissionSettingsEditor.qml";
 
@@ -49,6 +52,9 @@ MissionSettingsItem::MissionSettingsItem(Vehicle* vehicle, QObject* parent)
 
     _cameraSection.setAvailable(true);
     _speedSection.setAvailable(true);
+#ifdef Add_AgriSection
+    _agriSection.setAvailable(true);        //G201710111282 ChenYang 2使能
+#endif  //end of Add_AgriSection
 
     connect(this,               &MissionSettingsItem::specifyMissionFlightSpeedChanged, this, &MissionSettingsItem::_setDirtyAndUpdateLastSequenceNumber);
     connect(this,               &MissionSettingsItem::missionEndRTLChanged,             this, &MissionSettingsItem::_setDirtyAndUpdateLastSequenceNumber);
@@ -65,6 +71,16 @@ MissionSettingsItem::MissionSettingsItem(Vehicle* vehicle, QObject* parent)
 
     connect(&_cameraSection,    &CameraSection::specifiedGimbalYawChanged,  this, &MissionSettingsItem::specifiedGimbalYawChanged);
     connect(&_speedSection,     &SpeedSection::specifiedFlightSpeedChanged, this, &MissionSettingsItem::specifiedFlightSpeedChanged);
+#ifdef Add_AgriSection        
+//Start G201710111282  ChenYang 3链接
+connect(&_agriSection,	&AgriSection::itemCountChanged,						this, &MissionSettingsItem::_setDirtyAndUpdateLastSequenceNumber);
+connect(&_speedSection, 	&AgriSection::itemCountChanged,						this, &MissionSettingsItem::_setDirtyAndUpdateLastSequenceNumber);
+connect(&_agriSection,	&AgriSection::dirtyChanged,	this, &MissionSettingsItem::_sectionDirtyChanged);
+connect(&_agriSection,	&AgriSection::specifiedGimbalYawChanged,	this, &MissionSettingsItem::specifiedGimbalYawChanged);
+//End G201710111282 ChenYang 
+
+#endif  //end of Add_AgriSection
+
 }
 
 int MissionSettingsItem::lastSequenceNumber(void) const
@@ -73,6 +89,9 @@ int MissionSettingsItem::lastSequenceNumber(void) const
 
     lastSequenceNumber += _cameraSection.itemCount();
     lastSequenceNumber += _speedSection.itemCount();
+#ifdef Add_AgriSection
+    lastSequenceNumber += _agriSection.itemCount();        //G201710111282 ChenYang  4 item 计数
+#endif  //end of Add_AgriSection
 
     return lastSequenceNumber;
 }
@@ -84,6 +103,9 @@ void MissionSettingsItem::setDirty(bool dirty)
         if (!dirty) {
             _cameraSection.setDirty(false);
             _speedSection.setDirty(false);
+#ifdef Add_AgriSection
+			_agriSection.setDirty(false);          //G201710111282 ChenYang  5设置路径
+#endif  //end of Add_AgriSection
         }
         emit dirtyChanged(_dirty);
     }
@@ -159,6 +181,9 @@ void MissionSettingsItem::appendMissionItems(QList<MissionItem*>& items, QObject
 
     _cameraSection.appendSectionItems(items, missionItemParent, seqNum);
     _speedSection.appendSectionItems(items, missionItemParent, seqNum);
+#ifdef Add_AgriSection
+	    _agriSection.appendSectionItems(items, missionItemParent, seqNum);   //G201710111282 ChenYang  6添加进SectionItems
+#endif  //end of Add_AgriSection
 }
 
 bool MissionSettingsItem::addMissionEndAction(QList<MissionItem*>& items, int seqNum, QObject* missionItemParent)
@@ -187,12 +212,18 @@ bool MissionSettingsItem::scanForMissionSettings(QmlObjectListModel* visualItems
 {
     bool foundSpeedSection = false;
     bool foundCameraSection = false;
+#ifdef Add_AgriSection
+    bool foundAgriSection = false;          //G201710111282 ChenYang 标志位
+#endif  //end of Add_AgriSection
 
     qCDebug(MissionSettingsComplexItemLog) << "MissionSettingsItem::scanForMissionSettings count:scanIndex" << visualItems->count() << scanIndex;
 
     // Scan through the initial mission items for possible mission settings
     foundCameraSection = _cameraSection.scanForSection(visualItems, scanIndex);
     foundSpeedSection = _speedSection.scanForSection(visualItems, scanIndex);
+#ifdef Add_AgriSection
+	foundAgriSection = _agriSection.scanForSection(visualItems, scanIndex);//G201710111282 ChenYang  添加进扫描Section
+#endif  //end of Add_AgriSection
 
     // Look at the end of the mission for end actions
 
@@ -208,8 +239,12 @@ bool MissionSettingsItem::scanForMissionSettings(QmlObjectListModel* visualItems
             visualItems->removeAt(lastIndex)->deleteLater();
         }
     }
+	return foundSpeedSection || foundCameraSection
+#ifdef Add_AgriSection
+    ||foundAgriSection
+#endif  //end of Add_AgriSection
+;
 
-    return foundSpeedSection || foundCameraSection;
 }
 
 double MissionSettingsItem::complexDistance(void) const

@@ -1,14 +1,14 @@
 [
 {
-    "name":             "CameraAction",
-    "shortDescription": "Specify whether the camera should take photos or video",
+    "name":             "AgriSection",
+    "shortDescription": "Specify whether the agri should take photos or video",
     "type":             "uint32",
-    "enumStrings":      "No change,Take photo,Take photos (time),Take photos (distance),Stop taking photos,Start recording video,Stop recording video",
+    "enumStrings":      "AgriSection,Take photo,Take photos (time),Take photos (distance),Stop taking photos,Start recording video,Stop recording video",
     "enumValues":       "0,6,1,2,3,4,5",
     "defaultValue":     0
 },
 {
-    "name":             "CameraPhotoIntervalDistance",
+    "name":             "AgriPhotoIntervalDistance",
     "shortDescription": "Specify the distance between each photo",
     "type":             "double",
     "units":            "m",
@@ -17,7 +17,7 @@
     "defaultValue":     1
 },
 {
-    "name":             "CameraPhotoIntervalTime",
+    "name":             "AgriPhotoIntervalTime",
     "shortDescription": "Specify the time between each photo",
     "type":             "uint32",
     "units":            "secs",
@@ -46,8 +46,8 @@
     "defaultValue":     0
 },
 {
-    "name":             "CameraMode",
-    "shortDescription": "Specify whether the camera should switch to photo or video mode",
+    "name":             "AgriMode",
+    "shortDescription": "Specify whether the agri should switch to photo or video mode",
     "type":             "uint32",
     "enumStrings":      "Photo,Video",
     "enumValues":       "0,1",

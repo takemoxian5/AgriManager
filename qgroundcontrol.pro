@@ -396,6 +396,7 @@ SOURCES += \
     src/api/QGCCorePlugin.cc \
     src/api/QGCOptions.cc \
     src/api/QmlComponentInfo.cc \
+    src/MissionManager/AgriSection.cc
 
 #
 # Unit Test specific configuration goes here (requires full debug build with all plugins)
@@ -1091,3 +1092,6 @@ contains (CONFIG, QGC_DISABLE_BUILD_SETUP) {
 #
 
 include(QGCInstaller.pri)
+
+DISTFILES += \
+    src/MissionManager/AgriSection.FactMetaData.json

@@ -433,6 +433,23 @@ void MissionController::removeMissionItem(int index)
                 cameraSection->setSpecifyCameraMode(false);
             }
         }
+#ifdef Add_AgriSection       //G201710111282 ChenYang    remove survey
+		 if (!foundSurvey) {
+            bool rollSupported = false;
+            bool pitchSupported = false;
+            bool yawSupported = false;
+            MissionSettingsItem* settingsItem = _visualItems->value<MissionSettingsItem*>(0);
+            AgriSection* agriSection = settingsItem->agriSection();
+            if (_controllerVehicle->firmwarePlugin()->hasGimbal(_controllerVehicle, rollSupported, pitchSupported, yawSupported) && pitchSupported) {
+                if (agriSection->specifyGimbal() && agriSection->gimbalPitch()->rawValue().toDouble() == -90.0 && agriSection->gimbalYaw()->rawValue().toDouble() == 0.0) {
+                    agriSection->setSpecifyGimbal(false);
+                }
+            }
+            if (agriSection->agriModeSupported() && agriSection->specifyAgriMode() && agriSection->agriMode()->rawValue().toInt() == 0) {
+                agriSection->setSpecifyAgriMode(false);
+            }
+        }
+#endif  //end of Add_AgriSection
     }
 
     _recalcAll();

@@ -17,6 +17,10 @@
 #include "CameraSection.h"
 #include "SpeedSection.h"
 
+#ifdef Add_AgriSection
+#include "AgriSection.h"     //G201710111282 ChenYang    添加AgriSection  模块
+#endif  //end of Add_AgriSection
+
 Q_DECLARE_LOGGING_CATEGORY(MissionSettingsComplexItemLog)
 
 class MissionSettingsItem : public ComplexMissionItem
@@ -34,6 +38,13 @@ public:
     Fact*           plannedHomePositionAltitude (void) { return &_plannedHomePositionAltitudeFact; }
     bool            missionEndRTL               (void) const { return _missionEndRTL; }
     CameraSection*  cameraSection               (void) { return &_cameraSection; }
+	
+#ifdef Add_AgriSection
+	    //G201710111282 ChenYang 
+    AgriSection*  agriSection               (void) { return &_agriSection; }
+#endif  //end of Add_AgriSection
+
+		
     SpeedSection*   speedSection                (void) { return &_speedSection; }
 
     void setMissionEndRTL(bool missionEndRTL);
@@ -105,6 +116,9 @@ private:
     bool            _plannedHomePositionFromVehicle;
     bool            _missionEndRTL;
     CameraSection   _cameraSection;
+#ifdef Add_AgriSection       //G201710111282 ChenYang 声明
+  AgriSection   _agriSection;
+#endif  //end of Add_AgriSection
     SpeedSection    _speedSection;
 
     int     _sequenceNumber;

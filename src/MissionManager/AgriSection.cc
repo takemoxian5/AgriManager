@@ -11,29 +11,29 @@
 #include "SimpleMissionItem.h"
 #include "FirmwarePlugin.h"
 
-QGC_LOGGING_CATEGORY(CameraSectionLog, "CameraSectionLog")
+QGC_LOGGING_CATEGORY(AgriSectionLog, "AgriSectionLog")
 
 const char* AgriSection::_gimbalPitchName =                   "GimbalPitch";
 const char* AgriSection::_gimbalYawName =                     "GimbalYaw";
-const char* AgriSection::_cameraActionName =                  "CameraAction";
-const char* AgriSection::_cameraPhotoIntervalDistanceName =   "CameraPhotoIntervalDistance";
-const char* AgriSection::_cameraPhotoIntervalTimeName =       "CameraPhotoIntervalTime";
-const char* AgriSection::_cameraModeName =                    "CameraMode";
+const char* AgriSection::_agriActionName =                  "AgriAction";
+const char* AgriSection::_agriPhotoIntervalDistanceName =   "AgriPhotoIntervalDistance";
+const char* AgriSection::_agriPhotoIntervalTimeName =       "AgriPhotoIntervalTime";
+const char* AgriSection::_agriModeName =                    "AgriMode";
 
 QMap<QString, FactMetaData*> AgriSection::_metaDataMap;
 
-AgriSection::CameraSection(Vehicle* vehicle, QObject* parent)
+AgriSection::AgriSection(Vehicle* vehicle, QObject* parent)
     : Section(vehicle, parent)
     , _available(false)
     , _settingsSpecified(false)
     , _specifyGimbal(false)
-    , _specifyCameraMode(false)
+    , _specifyAgriMode(false)
     , _gimbalYawFact                    (0, _gimbalYawName,                     FactMetaData::valueTypeDouble)
     , _gimbalPitchFact                  (0, _gimbalPitchName,                   FactMetaData::valueTypeDouble)
-    , _cameraActionFact                 (0, _cameraActionName,                  FactMetaData::valueTypeDouble)
-    , _cameraPhotoIntervalDistanceFact  (0, _cameraPhotoIntervalDistanceName,   FactMetaData::valueTypeDouble)
-    , _cameraPhotoIntervalTimeFact      (0, _cameraPhotoIntervalTimeName,       FactMetaData::valueTypeUint32)
-    , _cameraModeFact                   (0, _cameraModeName,                    FactMetaData::valueTypeUint32)
+    , _agriActionFact                 (0, _agriActionName,                  FactMetaData::valueTypeDouble)
+    , _agriPhotoIntervalDistanceFact  (0, _agriPhotoIntervalDistanceName,   FactMetaData::valueTypeDouble)
+    , _agriPhotoIntervalTimeFact      (0, _agriPhotoIntervalTimeName,       FactMetaData::valueTypeUint32)
+    , _agriModeFact                   (0, _agriModeName,                    FactMetaData::valueTypeUint32)
     , _dirty(false)
 {
     if (_metaDataMap.isEmpty()) {
@@ -42,30 +42,30 @@ AgriSection::CameraSection(Vehicle* vehicle, QObject* parent)
 
     _gimbalPitchFact.setMetaData                    (_metaDataMap[_gimbalPitchName]);
     _gimbalYawFact.setMetaData                      (_metaDataMap[_gimbalYawName]);
-    _cameraActionFact.setMetaData                   (_metaDataMap[_cameraActionName]);
-    _cameraPhotoIntervalDistanceFact.setMetaData    (_metaDataMap[_cameraPhotoIntervalDistanceName]);
-    _cameraPhotoIntervalTimeFact.setMetaData        (_metaDataMap[_cameraPhotoIntervalTimeName]);
-    _cameraModeFact.setMetaData                     (_metaDataMap[_cameraModeName]);
+    _agriActionFact.setMetaData                   (_metaDataMap[_agriActionName]);
+    _agriPhotoIntervalDistanceFact.setMetaData    (_metaDataMap[_agriPhotoIntervalDistanceName]);
+    _agriPhotoIntervalTimeFact.setMetaData        (_metaDataMap[_agriPhotoIntervalTimeName]);
+    _agriModeFact.setMetaData                     (_metaDataMap[_agriModeName]);
 
     _gimbalPitchFact.setRawValue                    (_gimbalPitchFact.rawDefaultValue());
     _gimbalYawFact.setRawValue                      (_gimbalYawFact.rawDefaultValue());
-    _cameraActionFact.setRawValue                   (_cameraActionFact.rawDefaultValue());
-    _cameraPhotoIntervalDistanceFact.setRawValue    (_cameraPhotoIntervalDistanceFact.rawDefaultValue());
-    _cameraPhotoIntervalTimeFact.setRawValue        (_cameraPhotoIntervalTimeFact.rawDefaultValue());
-    _cameraModeFact.setRawValue                     (_cameraModeFact.rawDefaultValue());
+    _agriActionFact.setRawValue                   (_agriActionFact.rawDefaultValue());
+    _agriPhotoIntervalDistanceFact.setRawValue    (_agriPhotoIntervalDistanceFact.rawDefaultValue());
+    _agriPhotoIntervalTimeFact.setRawValue        (_agriPhotoIntervalTimeFact.rawDefaultValue());
+    _agriModeFact.setRawValue                     (_agriModeFact.rawDefaultValue());
 
     connect(this,                               &AgriSection::specifyGimbalChanged,       this, &AgriSection::_specifyChanged);
-    connect(this,                               &AgriSection::specifyCameraModeChanged,   this, &AgriSection::_specifyChanged);
+    connect(this,                               &AgriSection::specifyAgriModeChanged,   this, &AgriSection::_specifyChanged);
 
-    connect(&_cameraActionFact,                 &Fact::valueChanged,                        this, &AgriSection::_cameraActionChanged);
+    connect(&_agriActionFact,                 &Fact::valueChanged,                        this, &AgriSection::_agriActionChanged);
 
     connect(&_gimbalPitchFact,                  &Fact::valueChanged,                        this, &AgriSection::_setDirty);
     connect(&_gimbalYawFact,                    &Fact::valueChanged,                        this, &AgriSection::_setDirty);
-    connect(&_cameraPhotoIntervalDistanceFact,  &Fact::valueChanged,                        this, &AgriSection::_setDirty);
-    connect(&_cameraPhotoIntervalTimeFact,      &Fact::valueChanged,                        this, &AgriSection::_setDirty);
-    connect(&_cameraModeFact,                   &Fact::valueChanged,                        this, &AgriSection::_setDirty);
+    connect(&_agriPhotoIntervalDistanceFact,  &Fact::valueChanged,                        this, &AgriSection::_setDirty);
+    connect(&_agriPhotoIntervalTimeFact,      &Fact::valueChanged,                        this, &AgriSection::_setDirty);
+    connect(&_agriModeFact,                   &Fact::valueChanged,                        this, &AgriSection::_setDirty);
     connect(this,                               &AgriSection::specifyGimbalChanged,       this, &AgriSection::_setDirty);
-    connect(this,                               &AgriSection::specifyCameraModeChanged,   this, &AgriSection::_setDirty);
+    connect(this,                               &AgriSection::specifyAgriModeChanged,   this, &AgriSection::_setDirty);
 
     connect(this,                               &AgriSection::specifyGimbalChanged,       this, &AgriSection::_updateSpecifiedGimbalYaw);
     connect(&_gimbalYawFact,                    &Fact::valueChanged,                        this, &AgriSection::_updateSpecifiedGimbalYaw);
@@ -79,11 +79,11 @@ void AgriSection::setSpecifyGimbal(bool specifyGimbal)
     }
 }
 
-void AgriSection::setSpecifyCameraMode(bool specifyCameraMode)
+void AgriSection::setSpecifyAgriMode(bool specifyAgriMode)
 {
-    if (specifyCameraMode != _specifyCameraMode) {
-        _specifyCameraMode = specifyCameraMode;
-        emit specifyCameraModeChanged(specifyCameraMode);
+    if (specifyAgriMode != _specifyAgriMode) {
+        _specifyAgriMode = specifyAgriMode;
+        emit specifyAgriModeChanged(specifyAgriMode);
     }
 }
 
@@ -94,10 +94,10 @@ int AgriSection::itemCount(void) const
     if (_specifyGimbal) {
         itemCount++;
     }
-    if (_specifyCameraMode) {
+    if (_specifyAgriMode) {
         itemCount++;
     }
-    if (_cameraActionFact.rawValue().toInt() != CameraActionNone) {
+    if (_agriActionFact.rawValue().toInt() != AgriActionNone) {
         itemCount++;
     }
 
@@ -116,12 +116,12 @@ void AgriSection::appendSectionItems(QList<MissionItem*>& items, QObject* missio
 {
     // IMPORTANT NOTE: If anything changes here you must also change AgriSection::scanForSection
 
-    if (_specifyCameraMode) {
+    if (_specifyAgriMode) {
         MissionItem* item = new MissionItem(nextSequenceNumber++,
                                             MAV_CMD_SET_CAMERA_MODE,
                                             MAV_FRAME_MISSION,
-                                            0,                                      // camera id, all cameras
-                                            _cameraModeFact.rawValue().toDouble(),
+                                            0,                                      // agri id, all agris
+                                            _agriModeFact.rawValue().toDouble(),
                                             NAN,                                    // Audio off/on
                                             NAN, NAN, NAN, NAN,                     // param 4-7 reserved
                                             true,                                   // autoContinue
@@ -145,16 +145,16 @@ void AgriSection::appendSectionItems(QList<MissionItem*>& items, QObject* missio
         items.append(item);
     }
 
-    if (_cameraActionFact.rawValue().toInt() != CameraActionNone) {
+    if (_agriActionFact.rawValue().toInt() != AgriActionNone) {
         MissionItem* item = NULL;
 
-        switch (_cameraActionFact.rawValue().toInt()) {
+        switch (_agriActionFact.rawValue().toInt()) {
         case TakePhotosIntervalTime:
             item = new MissionItem(nextSequenceNumber++,
                                    MAV_CMD_IMAGE_START_CAPTURE,
                                    MAV_FRAME_MISSION,
-                                   0,                                               // Camera ID, all cameras
-                                   _cameraPhotoIntervalTimeFact.rawValue().toInt(), // Interval
+                                   0,                                               // Agri ID, all agris
+                                   _agriPhotoIntervalTimeFact.rawValue().toInt(), // Interval
                                    0,                                               // Unlimited photo count
                                    NAN, NAN, NAN, NAN,                              // param 4-7 reserved
                                    true,                                            // autoContinue
@@ -166,7 +166,7 @@ void AgriSection::appendSectionItems(QList<MissionItem*>& items, QObject* missio
             item = new MissionItem(nextSequenceNumber++,
                                    MAV_CMD_DO_SET_CAM_TRIGG_DIST,
                                    MAV_FRAME_MISSION,
-                                   _cameraPhotoIntervalDistanceFact.rawValue().toDouble(),  // Trigger distance
+                                   _agriPhotoIntervalDistanceFact.rawValue().toDouble(),  // Trigger distance
                                    0,                                                       // No shutter integartion
                                    1,                                                       // Trigger immediately
                                    0, 0, 0, 0,                                              // param 4-7 not used
@@ -179,7 +179,7 @@ void AgriSection::appendSectionItems(QList<MissionItem*>& items, QObject* missio
             item = new MissionItem(nextSequenceNumber++,
                                    MAV_CMD_VIDEO_START_CAPTURE,
                                    MAV_FRAME_MISSION,
-                                   0,                           // camera id = 0, all cameras
+                                   0,                           // agri id = 0, all agris
                                    0,                           // No CAMERA_CAPTURE_STATUS streaming
                                    NAN, NAN, NAN, NAN, NAN,     // param 3-7 reserved
                                    true,                        // autoContinue
@@ -191,7 +191,7 @@ void AgriSection::appendSectionItems(QList<MissionItem*>& items, QObject* missio
             item = new MissionItem(nextSequenceNumber++,
                                    MAV_CMD_VIDEO_STOP_CAPTURE,
                                    MAV_FRAME_MISSION,
-                                   0,                               // Camera ID, all cameras
+                                   0,                               // Agri ID, all agris
                                    NAN, NAN, NAN, NAN, NAN, NAN,    // param 2-7 reserved
                                    true,                            // autoContinue
                                    false,                           // isCurrentItem
@@ -211,7 +211,7 @@ void AgriSection::appendSectionItems(QList<MissionItem*>& items, QObject* missio
             item = new MissionItem(nextSequenceNumber++,
                                    MAV_CMD_IMAGE_STOP_CAPTURE,
                                    MAV_FRAME_MISSION,
-                                   0,                               // camera id, all cameras
+                                   0,                               // agri id, all agris
                                    NAN, NAN, NAN, NAN, NAN, NAN,    // param 2-7 reserved
                                    true,                            // autoContinue
                                    false,                           // isCurrentItem
@@ -222,7 +222,7 @@ void AgriSection::appendSectionItems(QList<MissionItem*>& items, QObject* missio
             item = new MissionItem(nextSequenceNumber++,
                                    MAV_CMD_IMAGE_START_CAPTURE,
                                    MAV_FRAME_MISSION,
-                                   0,                           // camera id = 0, all cameras
+                                   0,                           // agri id = 0, all agris
                                    0,                           // Interval (none)
                                    1,                           // Take 1 photo
                                    NAN, NAN, NAN, NAN,          // param 4-7 reserved
@@ -263,7 +263,7 @@ bool AgriSection::_scanTakePhoto(QmlObjectListModel* visualItems, int scanIndex)
         MissionItem& missionItem = item->missionItem();
         if ((MAV_CMD)item->command() == MAV_CMD_IMAGE_START_CAPTURE) {
             if (missionItem.param1() == 0 && missionItem.param2() == 0 && missionItem.param3() == 1) {
-                cameraAction()->setRawValue(TakePhoto);
+                agriAction()->setRawValue(TakePhoto);
                 visualItems->removeAt(scanIndex)->deleteLater();
                 return true;
             }
@@ -280,8 +280,8 @@ bool AgriSection::_scanTakePhotosIntervalTime(QmlObjectListModel* visualItems, i
         MissionItem& missionItem = item->missionItem();
         if ((MAV_CMD)item->command() == MAV_CMD_IMAGE_START_CAPTURE) {
             if (missionItem.param1() == 0 && missionItem.param2() >= 1 && missionItem.param3() == 0) {
-                cameraAction()->setRawValue(TakePhotosIntervalTime);
-                cameraPhotoIntervalTime()->setRawValue(missionItem.param2());
+                agriAction()->setRawValue(TakePhotosIntervalTime);
+                agriPhotoIntervalTime()->setRawValue(missionItem.param2());
                 visualItems->removeAt(scanIndex)->deleteLater();
                 return true;
             }
@@ -303,7 +303,7 @@ bool AgriSection::_scanStopTakingPhotos(QmlObjectListModel* visualItems, int sca
                     if (nextItem) {
                         MissionItem& nextMissionItem = nextItem->missionItem();
                         if (nextMissionItem.command() == MAV_CMD_IMAGE_STOP_CAPTURE && nextMissionItem.param1() == 0) {
-                            cameraAction()->setRawValue(StopTakingPhotos);
+                            agriAction()->setRawValue(StopTakingPhotos);
                             visualItems->removeAt(scanIndex)->deleteLater();
                             visualItems->removeAt(scanIndex)->deleteLater();
                             return true;
@@ -324,8 +324,8 @@ bool AgriSection::_scanTriggerStartDistance(QmlObjectListModel* visualItems, int
         MissionItem& missionItem = item->missionItem();
         if ((MAV_CMD)item->command() == MAV_CMD_DO_SET_CAM_TRIGG_DIST) {
             if (missionItem.param1() > 0 && missionItem.param2() == 0 && missionItem.param3() == 1 && missionItem.param4() == 0 && missionItem.param5() == 0 && missionItem.param6() == 0 && missionItem.param7() == 0) {
-                cameraAction()->setRawValue(TakePhotoIntervalDistance);
-                cameraPhotoIntervalDistance()->setRawValue(missionItem.param1());
+                agriAction()->setRawValue(TakePhotoIntervalDistance);
+                agriPhotoIntervalDistance()->setRawValue(missionItem.param1());
                 visualItems->removeAt(scanIndex)->deleteLater();
                 return true;
             }
@@ -342,8 +342,8 @@ bool AgriSection::_scanTriggerStopDistance(QmlObjectListModel* visualItems, int 
         MissionItem& missionItem = item->missionItem();
         if ((MAV_CMD)item->command() == MAV_CMD_DO_SET_CAM_TRIGG_DIST) {
             if (missionItem.param1() == 0 && missionItem.param2() == 0 && missionItem.param3() == 0 && missionItem.param4() == 0 && missionItem.param5() == 0 && missionItem.param6() == 0 && missionItem.param7() == 0) {
-                cameraAction()->setRawValue(TakePhotoIntervalDistance);
-                cameraPhotoIntervalDistance()->setRawValue(missionItem.param1());
+                agriAction()->setRawValue(TakePhotoIntervalDistance);
+                agriPhotoIntervalDistance()->setRawValue(missionItem.param1());
                 visualItems->removeAt(scanIndex)->deleteLater();
                 return true;
             }
@@ -360,7 +360,7 @@ bool AgriSection::_scanTakeVideo(QmlObjectListModel* visualItems, int scanIndex)
         MissionItem& missionItem = item->missionItem();
         if ((MAV_CMD)item->command() == MAV_CMD_VIDEO_START_CAPTURE) {
             if (missionItem.param1() == 0 && missionItem.param2() == 0) {
-                cameraAction()->setRawValue(TakeVideo);
+                agriAction()->setRawValue(TakeVideo);
                 visualItems->removeAt(scanIndex)->deleteLater();
                 return true;
             }
@@ -377,7 +377,7 @@ bool AgriSection::_scanStopTakingVideo(QmlObjectListModel* visualItems, int scan
         MissionItem& missionItem = item->missionItem();
         if ((MAV_CMD)item->command() == MAV_CMD_VIDEO_STOP_CAPTURE) {
             if (missionItem.param1() == 0) {
-                cameraAction()->setRawValue(StopTakingVideo);
+                agriAction()->setRawValue(StopTakingVideo);
                 visualItems->removeAt(scanIndex)->deleteLater();
                 return true;
             }
@@ -387,7 +387,7 @@ bool AgriSection::_scanStopTakingVideo(QmlObjectListModel* visualItems, int scan
     return false;
 }
 
-bool AgriSection::_scanSetCameraMode(QmlObjectListModel* visualItems, int scanIndex)
+bool AgriSection::_scanSetAgriMode(QmlObjectListModel* visualItems, int scanIndex)
 {
     SimpleMissionItem* item = visualItems->value<SimpleMissionItem*>(scanIndex);
     if (item) {
@@ -395,8 +395,8 @@ bool AgriSection::_scanSetCameraMode(QmlObjectListModel* visualItems, int scanIn
         if ((MAV_CMD)item->command() == MAV_CMD_SET_CAMERA_MODE) {
             // We specifically don't test param 5/6/7 since we don't have NaN persistence for those fields
             if (missionItem.param1() == 0 && (missionItem.param2() == 0 || missionItem.param2() == 1) && qIsNaN(missionItem.param3())) {
-                setSpecifyCameraMode(true);
-                cameraMode()->setRawValue(missionItem.param2());
+                setSpecifyAgriMode(true);
+                agriMode()->setRawValue(missionItem.param2());
                 visualItems->removeAt(scanIndex)->deleteLater();
                 return true;
             }
@@ -409,10 +409,10 @@ bool AgriSection::_scanSetCameraMode(QmlObjectListModel* visualItems, int scanIn
 bool AgriSection::scanForSection(QmlObjectListModel* visualItems, int scanIndex)
 {
     bool foundGimbal = false;
-    bool foundCameraAction = false;
-    bool foundCameraMode = false;
+    bool foundAgriAction = false;
+    bool foundAgriMode = false;
 
-    qCDebug(CameraSectionLog) << "AgriSection::scanForCameraSection visualItems->count():scanIndex;" << visualItems->count() << scanIndex;
+    qCDebug(AgriSectionLog) << "AgriSection::scanForAgriSection visualItems->count():scanIndex;" << visualItems->count() << scanIndex;
 
     if (!_available || scanIndex >= visualItems->count()) {
         return false;
@@ -425,44 +425,44 @@ bool AgriSection::scanForSection(QmlObjectListModel* visualItems, int scanIndex)
             foundGimbal = true;
             continue;
         }
-        if (!foundCameraAction && _scanTakePhoto(visualItems, scanIndex)) {
-            foundCameraAction = true;
+        if (!foundAgriAction && _scanTakePhoto(visualItems, scanIndex)) {
+            foundAgriAction = true;
             continue;
         }
-        if (!foundCameraAction && _scanTakePhotosIntervalTime(visualItems, scanIndex)) {
-            foundCameraAction = true;
+        if (!foundAgriAction && _scanTakePhotosIntervalTime(visualItems, scanIndex)) {
+            foundAgriAction = true;
             continue;
         }
-        if (!foundCameraAction && _scanStopTakingPhotos(visualItems, scanIndex)) {
-            foundCameraAction = true;
+        if (!foundAgriAction && _scanStopTakingPhotos(visualItems, scanIndex)) {
+            foundAgriAction = true;
             continue;
         }
-        if (!foundCameraAction && _scanTriggerStartDistance(visualItems, scanIndex)) {
-            foundCameraAction = true;
+        if (!foundAgriAction && _scanTriggerStartDistance(visualItems, scanIndex)) {
+            foundAgriAction = true;
             continue;
         }
-        if (!foundCameraAction && _scanTriggerStopDistance(visualItems, scanIndex)) {
-            foundCameraAction = true;
+        if (!foundAgriAction && _scanTriggerStopDistance(visualItems, scanIndex)) {
+            foundAgriAction = true;
             continue;
         }
-        if (!foundCameraAction && _scanTakeVideo(visualItems, scanIndex)) {
-            foundCameraAction = true;
+        if (!foundAgriAction && _scanTakeVideo(visualItems, scanIndex)) {
+            foundAgriAction = true;
             continue;
         }
-        if (!foundCameraAction && _scanStopTakingVideo(visualItems, scanIndex)) {
-            foundCameraAction = true;
+        if (!foundAgriAction && _scanStopTakingVideo(visualItems, scanIndex)) {
+            foundAgriAction = true;
             continue;
         }
-        if (!foundCameraMode && _scanSetCameraMode(visualItems, scanIndex)) {
-            foundCameraMode = true;
+        if (!foundAgriMode && _scanSetAgriMode(visualItems, scanIndex)) {
+            foundAgriMode = true;
             continue;
         }
         break;
     }
 
-    qCDebug(CameraSectionLog) << "AgriSection::scanForCameraSection foundGimbal:foundCameraAction:foundCameraMode;" << foundGimbal << foundCameraAction << foundCameraMode;
+    qCDebug(AgriSectionLog) << "AgriSection::scanForAgriSection foundGimbal:foundAgriAction:foundAgriMode;" << foundGimbal << foundAgriAction << foundAgriMode;
 
-    _settingsSpecified = foundGimbal || foundCameraAction || foundCameraMode;
+    _settingsSpecified = foundGimbal || foundAgriAction || foundAgriMode;
     emit settingsSpecifiedChanged(_settingsSpecified);
 
     return _settingsSpecified;
@@ -499,7 +499,7 @@ void AgriSection::_updateSpecifiedGimbalYaw(void)
 
 void AgriSection::_updateSettingsSpecified(void)
 {
-    bool newSettingsSpecified = _specifyGimbal || _specifyCameraMode || _cameraActionFact.rawValue().toInt() != CameraActionNone;
+    bool newSettingsSpecified = _specifyGimbal || _specifyAgriMode || _agriActionFact.rawValue().toInt() != AgriActionNone;
     if (newSettingsSpecified != _settingsSpecified) {
         _settingsSpecified = newSettingsSpecified;
         emit settingsSpecifiedChanged(newSettingsSpecified);
@@ -512,13 +512,13 @@ void AgriSection::_specifyChanged(void)
     _updateSettingsSpecified();
 }
 
-void AgriSection::_cameraActionChanged(void)
+void AgriSection::_agriActionChanged(void)
 {
     _setDirtyAndUpdateItemCount();
     _updateSettingsSpecified();
 }
 
-bool AgriSection::cameraModeSupported(void) const
+bool AgriSection::agriModeSupported(void) const
 {
     return _vehicle->firmwarePlugin()->supportedMissionCommands().contains(MAV_CMD_SET_CAMERA_MODE);
 }

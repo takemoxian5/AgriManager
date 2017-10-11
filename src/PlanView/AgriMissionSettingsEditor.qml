@@ -119,37 +119,22 @@ Rectangle {
                     }
                 } // GridLayout
             }
-            CameraSection {
-                id:         cameraSection
-                visible:       _missionVehicle.vtol                        //G201710101286 ChenYang   切换隐藏，待更换标志位
-                checked:    missionItem.cameraSection.settingsSpecified
+//Start G201710101286 ChenYang   植保设置
+            AgriSection {
+                id:         AgriSection
+                visible:       !_missionVehicle.vtol                        //G201710101286 ChenYang   切换隐藏，待更换标志位
+                checked:    missionItem.AgriSection.settingsSpecified
             }
 
             QGCLabel {
                 anchors.left:           parent.left
                 anchors.right:          parent.right
-                text:                   qsTr("Above camera commands will take affect immediately upon mission start.")
+                text:                   qsTr("ok")
                 wrapMode:               Text.WordWrap
                 horizontalAlignment:    Text.AlignHCenter
                 font.pointSize:         ScreenTools.smallFontPointSize
-                visible:                cameraSection.checked
+                visible:                AgriSection.checked
             }
-//Start G201710101286 ChenYang   植保设置
-//            AgriSection {
-//                id:         AgriSection
-//                visible:       !_missionVehicle.vtol                        //G201710101286 ChenYang   切换隐藏，待更换标志位
-//                checked:    missionItem.AgriSection.settingsSpecified
-//            }
-
-//            QGCLabel {
-//                anchors.left:           parent.left
-//                anchors.right:          parent.right
-//                text:                   qsTr("ok")
-//                wrapMode:               Text.WordWrap
-//                horizontalAlignment:    Text.AlignHCenter
-//                font.pointSize:         ScreenTools.smallFontPointSize
-//                visible:                AgriSection.checked
-//            }
 //End G201710101286 ChenYang 
 
             SectionHeader {
