@@ -35,7 +35,7 @@ class MissionController;
 
 
 
- #define Add_AgriSection      //G201710111282 ChenYang 添加AgriSection  模块
+ //#define Add_AgriSection      //G201710111282 ChenYang 添加AgriSection  模块
 
 
 // Represents a Mavlink mission command.

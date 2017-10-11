@@ -2,7 +2,7 @@ Module QGroundControl.Controls
 
 AnalyzePage             1.0 AnalyzePage.qml
 AppMessages             1.0 AppMessages.qml
-AgriSection             1.0 AgriSection.qml 			//G201710111282 ChenYang 
+AgriSection             1.0 AgriSection.qml
 CameraSection           1.0 CameraSection.qml
 ClickableColor          1.0 ClickableColor.qml
 DropButton              1.0 DropButton.qml

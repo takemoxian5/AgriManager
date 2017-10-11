@@ -1,6 +1,6 @@
 [
 {
-    "name":             "AgriSection",
+    "name":             "AgriAction",
     "shortDescription": "Specify whether the agri should take photos or video",
     "type":             "uint32",
     "enumStrings":      "AgriSection,Take photo,Take photos (time),Take photos (distance),Stop taking photos,Start recording video,Stop recording video",
