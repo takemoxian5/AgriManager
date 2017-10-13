@@ -452,7 +452,7 @@ QGCView {
                     },
                     {
                         name:              "生成区域", // _singleComplexItem ? _missionController.complexMissionItemNames[0] : "Pattern",
-                        iconSource:         "/qmlimages/MapDrawShape.svg",
+                        iconSource:         "/qmlimages/wind-roseBlack.svg",
                         dropPanelComponent: _singleComplexItem ? undefined : patternDropPanel
                     }
                 ]

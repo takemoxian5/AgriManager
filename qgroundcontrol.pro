@@ -497,7 +497,6 @@ HEADERS += \
     src/LogCompressor.h \
     src/MG.h \
     src/MissionManager/CameraSection.h \
-	src/MissionManager/AgriSection.h \
     src/MissionManager/ComplexMissionItem.h \
     src/MissionManager/FixedWingLandingComplexItem.h \
     src/MissionManager/GeoFenceController.h \
@@ -684,7 +683,6 @@ SOURCES += \
     src/JsonHelper.cc \
     src/LogCompressor.cc \
     src/MissionManager/CameraSection.cc \
-    src/MissionManager/AgriSection.cc \
     src/MissionManager/ComplexMissionItem.cc \
     src/MissionManager/FixedWingLandingComplexItem.cc \
     src/MissionManager/GeoFenceController.cc \
@@ -1093,6 +1091,3 @@ contains (CONFIG, QGC_DISABLE_BUILD_SETUP) {
 #
 
 include(QGCInstaller.pri)
-
-DISTFILES += \
-    src/MissionManager/AgriSection.FactMetaData.json

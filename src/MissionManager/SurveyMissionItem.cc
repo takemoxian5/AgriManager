@@ -110,6 +110,11 @@ SurveyMissionItem::SurveyMissionItem(Vehicle* vehicle, QObject* parent)
     , _cameraOrientationLandscapeFact   (settingsGroup, _metaDataMap[cameraOrientationLandscapeName])
     , _fixedValueIsAltitudeFact         (settingsGroup, _metaDataMap[fixedValueIsAltitudeName])
     , _cameraFact                       (settingsGroup, _metaDataMap[cameraName])
+
+
+
+
+
 {
     _editorQml = "qrc:/qml/SurveyItemEditor.qml";
 
