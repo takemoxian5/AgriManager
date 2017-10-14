@@ -187,6 +187,16 @@ private:
         CameraTriggerOn,
         CameraTriggerOff,
         CameraTriggerHoverAndCapture
+#ifdef AgriTrigger_TOCamera
+//Start G201710131281 ChenYang  
+			,
+			AgriTriggerNone,
+			AgriTriggerOn,
+			AgriTriggerOff,
+			AgriTriggerHoverAndCapture
+//End G201710131281 ChenYang 
+#endif
+
     };
 
     void _setExitCoordinate(const QGeoCoordinate& coordinate);

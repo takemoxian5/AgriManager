@@ -139,7 +139,6 @@ Item {
             z:              QGroundControl.zOrderMapItems
             coordinate:     _missionItem.exitCoordinate
             visible:        _missionItem.exitCoordinate.isValid
-
             sourceItem: MissionItemIndexLabel {
                 index:      _missionItem.lastSequenceNumber
                 label:      "终点"

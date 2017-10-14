@@ -1128,20 +1128,31 @@ int SurveyMissionItem::_gridGenerator(const QList<QPointF>& polygonPoints,  QLis
 
     return cameraShots;
 }
+#ifdef AgriTrigger_TOCamera
+bool trunline = false;
+#endif
 
-int SurveyMissionItem::_appendWaypointToMission(QList<MissionItem*>& items, int seqNum, QGeoCoordinate& coord, CameraTriggerCode cameraTrigger, QObject* missionItemParent)
+int SurveyMissionItem::_appendWaypointToMission(QList<MissionItem*>& items, int seqNum, QGeoCoordinate& coord, CameraTriggerCode cameraTrigger, QObject* missionItemParent
+
+)
 {
     double  altitude =          _gridAltitudeFact.rawValue().toDouble();
     bool    altitudeRelative =  _gridAltitudeRelativeFact.rawValue().toBool();
 
     qCDebug(SurveyMissionItemLog) << "_appendWaypointToMission seq:trigger" << seqNum << (cameraTrigger != CameraTriggerNone);
-
     MissionItem* item = new MissionItem(seqNum++,
                                         MAV_CMD_NAV_WAYPOINT,
                                         altitudeRelative ? MAV_FRAME_GLOBAL_RELATIVE_ALT : MAV_FRAME_GLOBAL,
                                         cameraTrigger == CameraTriggerHoverAndCapture ? _hoverAndCaptureDelaySeconds : 0,  // Hold time (delay for hover and capture to settle vehicle before image is taken)
-                                        0.0, 0.0,
-                                        std::numeric_limits<double>::quiet_NaN(),   // Yaw unchanged
+                                        0.0, 
+                                        0.0,
+//Start G201710131281 ChenYang   change Yaw 
+#ifdef AgriTrigger_TOCamera
+                                        trunline ? 180:0,
+#else                                        
+                                        std::numeric_limits<double>::quiet_NaN(),//G201710131281 ChenYang  Yaw unchanged
+#endif
+//End G201710131281 ChenYang 
                                         coord.latitude(),
                                         coord.longitude(),
                                         altitude,
@@ -1151,7 +1162,7 @@ int SurveyMissionItem::_appendWaypointToMission(QList<MissionItem*>& items, int 
     items.append(item);
 
     switch (cameraTrigger) {
-    case CameraTriggerOff:
+    case CameraTriggerOff:    //一样加航点，只是关闭快门
     case CameraTriggerOn:
         item = new MissionItem(seqNum++,
                                MAV_CMD_DO_SET_CAM_TRIGG_DIST,
@@ -1215,6 +1226,7 @@ bool SurveyMissionItem::_nextTransectCoord(const QList<QGeoCoordinate>& transect
 ///     @param hasRefly true: misison has a refly section
 ///     @param buildRefly: true: build the refly section, false: build the first section
 /// @return false: Generation failed
+
 bool SurveyMissionItem::_appendMissionItemsWorker(QList<MissionItem*>& items, QObject* missionItemParent, int& seqNum, bool hasRefly, bool buildRefly)
 {
     bool firstWaypointTrigger = false;
@@ -1226,6 +1238,9 @@ bool SurveyMissionItem::_appendMissionItemsWorker(QList<MissionItem*>& items, QO
     if (!buildRefly && _imagesEverywhere()) {
         firstWaypointTrigger = true;
     }
+#ifdef AgriTrigger_TOCamera
+			 trunline=false;
+#endif
 
     for (int segmentIndex=0; segmentIndex<transectSegments.count(); segmentIndex++) {
         int pointIndex = 0;
@@ -1235,13 +1250,17 @@ bool SurveyMissionItem::_appendMissionItemsWorker(QList<MissionItem*>& items, QO
 
         qCDebug(SurveyMissionItemLog) << "segment.count" << segment.count();
 
-        if (_hasTurnaround()) {
+        if (_hasTurnaround()) {             //G201710131281 ChenYang 转弯处理
             // Add entry turnaround point
             if (!_nextTransectCoord(segment, pointIndex++, coord)) {
                 return false;
             }
-            seqNum = _appendWaypointToMission(items, seqNum, coord, firstWaypointTrigger ? CameraTriggerOn : CameraTriggerNone, missionItemParent);
+//            seqNum = _appendWaypointToMission(items, seqNum, coord, firstWaypointTrigger ? CameraTriggerOn : CameraTriggerNone, missionItemParent);
+			seqNum = _appendWaypointToMission(items, seqNum, coord, firstWaypointTrigger ? CameraTriggerOn : CameraTriggerNone, missionItemParent);
             firstWaypointTrigger = false;
+#ifdef AgriTrigger_TOCamera
+		 trunline=true;
+#endif
         }
 
         // Add polygon entry point
@@ -1372,7 +1391,6 @@ bool SurveyMissionItem::_hasTurnaround(void) const
 {
     return _turnaroundDistance() > 0;
 }
-
 double SurveyMissionItem::_turnaroundDistance(void) const
 {
     return _turnaroundDistFact.rawValue().toDouble();
