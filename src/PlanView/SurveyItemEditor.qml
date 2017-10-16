@@ -722,7 +722,8 @@ Rectangle {
 
                     ToolButton {
                         id:					   agriwindRoseButton
-                        anchors.verticalCenter: tempangleText.verticalCenter
+                        anchors.verticalCenter:  mapPolygonVisuals.verticalCenter// QGroundControl.flightMapPosition//tempangleText.verticalCenter
+
 //                        iconSource:			    "/res/wind-roseBlack.svg"
                         iconSource:			   qgcPal.globalTheme === QGCPalette.Light ? "/res/wind-roseBlack.svg" : "/res/wind-rose.svg"
                           visible: 	   agriHeader.checked
@@ -730,8 +731,11 @@ Rectangle {
 
                         onClicked: {
                             windRosePie.angle = Number(agriAngleText.text)
-                            var cords = windRoseButton.mapToItem(_root, 0, 0)
-                            windRosePie.popup(cords.x + windRoseButton.width / 2, cords.y + windRoseButton.height / 2)
+
+                                                        var cords =QGroundControl.flightMapPosition// windRoseButton.mapToItem(_root, 0, 0)
+                                                        windRosePie.popup(cords.x , cords.y )//+ windRoseButton.height / 2)+ windRoseButton.width / 2
+//                            var cords = windRoseButton.mapToItem(_root, 0, 0)
+//                            windRosePie.popup(cords.x + windRoseButton.width / 2, cords.y + windRoseButton.height / 2)
                         }
                     }
                 }
@@ -1108,9 +1112,9 @@ Rectangle {
 
         function popup(x, y) {
             if (x !== undefined)
-                windRosePie.x = x - windRosePie.width / 2
+                windRosePie.x =mapPolygonVisuals.width // x - windRosePie.width / 2
             if (y !== undefined)
-                windRosePie.y = y - windRosePie.height / 2
+                windRosePie.y =mapPolygonVisuals.height //  y - windRosePie.height / 2
 
             windRosePie.visible = true
             windRosePie.focus = true

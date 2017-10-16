@@ -1238,29 +1238,32 @@ bool SurveyMissionItem::_appendMissionItemsWorker(QList<MissionItem*>& items, QO
     if (!buildRefly && _imagesEverywhere()) {
         firstWaypointTrigger = true;
     }
-#ifdef AgriTrigger_TOCamera
-			 trunline=false;
-#endif
+
 
     for (int segmentIndex=0; segmentIndex<transectSegments.count(); segmentIndex++) {
         int pointIndex = 0;
         QGeoCoordinate coord;
         CameraTriggerCode cameraTrigger;
+		
         const QList<QGeoCoordinate>& segment = transectSegments[segmentIndex];
 
         qCDebug(SurveyMissionItemLog) << "segment.count" << segment.count();
+#ifdef AgriTrigger_TOCamera
+					 trunline=false;
+#endif
 
         if (_hasTurnaround()) {             //G201710131281 ChenYang 转弯处理
             // Add entry turnaround point
             if (!_nextTransectCoord(segment, pointIndex++, coord)) {
                 return false;
             }
+#ifdef AgriTrigger_TOCamera
+		 trunline=true;
+#endif			
 //            seqNum = _appendWaypointToMission(items, seqNum, coord, firstWaypointTrigger ? CameraTriggerOn : CameraTriggerNone, missionItemParent);
 			seqNum = _appendWaypointToMission(items, seqNum, coord, firstWaypointTrigger ? CameraTriggerOn : CameraTriggerNone, missionItemParent);
             firstWaypointTrigger = false;
-#ifdef AgriTrigger_TOCamera
-		 trunline=true;
-#endif
+
         }
 
         // Add polygon entry point
