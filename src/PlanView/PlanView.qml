@@ -38,7 +38,8 @@ QGCView {
     readonly property var       _activeVehicle:         QGroundControl.multiVehicleManager.activeVehicle
     readonly property real      _rightPanelWidth:       Math.min(parent.width / 3, ScreenTools.defaultFontPixelWidth * 30)
     readonly property real      _toolButtonTopMargin:   parent.height - ScreenTools.availableHeight + (ScreenTools.defaultFontPixelHeight / 2)
-    readonly property var       _defaultVehicleCoordinate:   QtPositioning.coordinate(37.803784, -122.462276)
+   
+    readonly property var       _defaultVehicleCoordinate:   QtPositioning.coordinate(22.575877,113.590000)  //G201710161281 ChenYang 默认homepoint马安路口 经纬度(37.803784, -122.462276)
 
     property var    _planMasterController:      masterController
     property var    _missionController:         _planMasterController.missionController
@@ -450,11 +451,11 @@ QGCView {
                         name:               "缩小",
                         iconSource:         "/qmlimages/ZoomMinus.svg"
                     },
-                    {
-                        name:              "生成区域", // _singleComplexItem ? _missionController.complexMissionItemNames[0] : "Pattern",
-                        iconSource:         "/qmlimages/wind-roseBlack.svg",
-                        dropPanelComponent: _singleComplexItem ? undefined : patternDropPanel
-                    }
+//                    {
+//                        name:              "生成区域", // _singleComplexItem ? _missionController.complexMissionItemNames[0] : "Pattern",
+//                        iconSource:         "/qmlimages/wind-roseBlack.svg",
+//                        dropPanelComponent: _singleComplexItem ? undefined : patternDropPanel
+//                    }
                 ]
 
                 onClicked: {
@@ -473,11 +474,11 @@ QGCView {
                     case 5:
                         editorMap.zoomLevel -= 0.5
                         break
-                    case 6:
-                        if (_singleComplexItem) {
-                            addComplexItem(_missionController.complexMissionItemNames[0]) //CY128 Survey图标对应功能
-                        }
-                        break
+//                    case 6:
+//                        if (_singleComplexItem) {
+//                            addComplexItem(_missionController.complexMissionItemNames[0]) //CY128 Survey图标对应功能
+//                        }
+//                        break
                     }
                 }
             }

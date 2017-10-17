@@ -1148,7 +1148,7 @@ int SurveyMissionItem::_appendWaypointToMission(QList<MissionItem*>& items, int 
                                         0.0,
 //Start G201710131281 ChenYang   change Yaw 
 #ifdef AgriTrigger_TOCamera
-                                        trunline ? 180:0,
+                                        trunline ? 1:0,
 #else                                        
                                         std::numeric_limits<double>::quiet_NaN(),//G201710131281 ChenYang  Yaw unchanged
 #endif
@@ -1263,6 +1263,9 @@ bool SurveyMissionItem::_appendMissionItemsWorker(QList<MissionItem*>& items, QO
 //            seqNum = _appendWaypointToMission(items, seqNum, coord, firstWaypointTrigger ? CameraTriggerOn : CameraTriggerNone, missionItemParent);
 			seqNum = _appendWaypointToMission(items, seqNum, coord, firstWaypointTrigger ? CameraTriggerOn : CameraTriggerNone, missionItemParent);
             firstWaypointTrigger = false;
+#ifdef AgriTrigger_TOCamera
+					 trunline=false;
+#endif	
 
         }
 

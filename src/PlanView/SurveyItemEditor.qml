@@ -339,7 +339,9 @@ Rectangle {
                     anchors.left:   parent.left
                     anchors.right:  parent.right
                     spacing:        _margin
-                    QGCLabel { text: qsTr("传感器"); Layout.fillWidth: true }
+                    QGCLabel {
+                        text: qsTr("传感器")
+                        Layout.fillWidth: true }
                     FactTextField {
                         Layout.preferredWidth:  _root._fieldWidth
                         fact:                   missionItem.cameraSensorWidth
@@ -354,7 +356,10 @@ Rectangle {
                     anchors.left:   parent.left
                     anchors.right:  parent.right
                     spacing:        _margin
-                    QGCLabel { text: qsTr("像素"); Layout.fillWidth: true }
+                    QGCLabel {
+                        text: qsTr("像素")
+                        Layout.fillWidth: true
+                    }
                     FactTextField {
                         Layout.preferredWidth:  _root._fieldWidth
                         fact:                   missionItem.cameraResolutionWidth
@@ -400,7 +405,10 @@ Rectangle {
                 anchors.left:   parent.left
                 anchors.right:  parent.right
                 spacing:        _margin
-                QGCLabel { text: qsTr("覆盖率"); Layout.fillWidth: true }
+                QGCLabel {
+                    text: qsTr("覆盖率")
+                    Layout.fillWidth: true
+                }
                 FactTextField {
                     Layout.preferredWidth:  _root._fieldWidth
                     fact:                   missionItem.frontalOverlap
@@ -544,27 +552,27 @@ Rectangle {
             spacing: 	   _margin
             visible: 	   gridTypeCombo.currentIndex === _agriTypeManual
 
-//            Row {
-//                spacing: 				   _margin
-//                anchors.horizontalCenter:   parent.horizontalCenter
-//                visible: 				   !missionItem.cameraOrientationFixed
+            //            Row {
+            //                spacing: 				   _margin
+            //                anchors.horizontalCenter:   parent.horizontalCenter
+            //                visible: 				   !missionItem.cameraOrientationFixed
 
-//                QGCRadioButton {
-//                    width:		   _editFieldWidth
-//                    text:		   "Landscape"
-//                    checked: 	   !!missionItem.cameraOrientationLandscape.value
-//                    exclusiveGroup: cameraOrientationGroup
-//                    onClicked:	   missionItem.cameraOrientationLandscape.value = 1
-//                }
+            //                QGCRadioButton {
+            //                    width:		   _editFieldWidth
+            //                    text:		   "Landscape"
+            //                    checked: 	   !!missionItem.cameraOrientationLandscape.value
+            //                    exclusiveGroup: cameraOrientationGroup
+            //                    onClicked:	   missionItem.cameraOrientationLandscape.value = 1
+            //                }
 
-//                QGCRadioButton {
-//                    id:			   agricameraOrientationPortrait
-//                    text:		   "Portrait"
-//                    checked: 	   !missionItem.cameraOrientationLandscape.value
-//                    exclusiveGroup: cameraOrientationGroup
-//                    onClicked:	   missionItem.cameraOrientationLandscape.value = 0
-//                }
-//            }
+            //                QGCRadioButton {
+            //                    id:			   agricameraOrientationPortrait
+            //                    text:		   "Portrait"
+            //                    checked: 	   !missionItem.cameraOrientationLandscape.value
+            //                    exclusiveGroup: cameraOrientationGroup
+            //                    onClicked:	   missionItem.cameraOrientationLandscape.value = 0
+            //                }
+            //            }
 
             Column {
                 id:			   agriCol
@@ -573,24 +581,24 @@ Rectangle {
                 spacing: 	   _margin
                 visible: 	   gridTypeCombo.currentIndex === _agriTypeManual//_agriTypeManual
 
-//                RowLayout {
-//                    anchors.left:   parent.left
-//                    anchors.right:  parent.right
-//                    spacing: 	   _margin
-//                    Item { Layout.fillWidth: true }
-//                    QGCLabel {
-//                        Layout.preferredWidth:  _root._fieldWidth
-//                        text:				   qsTr("宽度")
-//                    }
-//                    QGCLabel {
-//                        Layout.preferredWidth:  _root._fieldWidth
-//                        text:				   qsTr("长度")
-//                    }
-//                    //						   QGCLabel {
-//                    //							   Layout.preferredWidth:  _root._fieldWidth
-//                    //							   text:				   qsTr("高度")
-//                    //						   }
-//                }
+                //                RowLayout {
+                //                    anchors.left:   parent.left
+                //                    anchors.right:  parent.right
+                //                    spacing: 	   _margin
+                //                    Item { Layout.fillWidth: true }
+                //                    QGCLabel {
+                //                        Layout.preferredWidth:  _root._fieldWidth
+                //                        text:				   qsTr("宽度")
+                //                    }
+                //                    QGCLabel {
+                //                        Layout.preferredWidth:  _root._fieldWidth
+                //                        text:				   qsTr("长度")
+                //                    }
+                //                    //						   QGCLabel {
+                //                    //							   Layout.preferredWidth:  _root._fieldWidth
+                //                    //							   text:				   qsTr("高度")
+                //                    //						   }
+                //                }
 
                 //					   RowLayout {
                 //						   anchors.left:   parent.left
@@ -611,38 +619,40 @@ Rectangle {
                     anchors.left:   parent.left
                     anchors.right:  parent.right
                     spacing: 	   _margin
-                    QGCLabel { text: qsTr("5米喷幅"); Layout.fillWidth: true }
-					FactTextField {
-						fact:					missionItem.gridSpacing
-						Layout.fillWidth:		true
-					}
-//                    FactTextField {
-//                        Layout.preferredWidth:  _root._fieldWidth
-//                        fact:				   missionItem.cameraResolutionWidth
-//                    }
-//                    FactTextField {
-//                        Layout.preferredWidth:  _root._fieldWidth
-//                        fact:				   missionItem.cameraResolutionHeight
-//                    }
+                    QGCLabel { text: qsTr("5米喷幅")
+                        Layout.fillWidth: true
+                    }
+                    FactTextField {
+                        fact:					missionItem.gridSpacing
+                        Layout.fillWidth:		true
+                    }
+                    //                    FactTextField {
+                    //                        Layout.preferredWidth:  _root._fieldWidth
+                    //                        fact:				   missionItem.cameraResolutionWidth
+                    //                    }
+                    //                    FactTextField {
+                    //                        Layout.preferredWidth:  _root._fieldWidth
+                    //                        fact:				   missionItem.cameraResolutionHeight
+                    //                    }
                 }
 
-//                RowLayout {
-//                    anchors.left:   parent.left
-//                    anchors.right:  parent.right
-//                    spacing: 	   _margin
-//                    QGCLabel {
-//                        text:				   qsTr("10米喷幅")
-//                        Layout.fillWidth:	   true
-//                    }
-//                    FactTextField {
-//                        Layout.preferredWidth:  _root._fieldWidth
-//                        fact:				   missionItem.cameraResolutionHeight
-//                    }
-//				    FactTextField {
-//					   Layout.preferredWidth:  _root._fieldWidth
-//					   fact:				   missionItem.cameraFocalLength
-//				   }
-//                }
+                //                RowLayout {
+                //                    anchors.left:   parent.left
+                //                    anchors.right:  parent.right
+                //                    spacing: 	   _margin
+                //                    QGCLabel {
+                //                        text:				   qsTr("10米喷幅")
+                //                        Layout.fillWidth:	   true
+                //                    }
+                //                    FactTextField {
+                //                        Layout.preferredWidth:  _root._fieldWidth
+                //                        fact:				   missionItem.cameraResolutionHeight
+                //                    }
+                //				    FactTextField {
+                //					   Layout.preferredWidth:  _root._fieldWidth
+                //					   fact:				   missionItem.cameraFocalLength
+                //				   }
+                //                }
 
             }      //G201710111285 ChenYang  Column -  agri mode
 
@@ -665,7 +675,9 @@ Rectangle {
                 anchors.left:   parent.left
                 anchors.right:  parent.right
                 spacing: 	   _margin
-                QGCLabel { text: qsTr("覆盖率"); Layout.fillWidth: true }
+                QGCLabel {
+                    text: qsTr("覆盖率")
+                    Layout.fillWidth: true }
                 FactTextField {
                     Layout.preferredWidth:  _root._fieldWidth
                     fact:				   missionItem.frontalOverlap
@@ -722,20 +734,21 @@ Rectangle {
 
                     ToolButton {
                         id:					   agriwindRoseButton
-                        anchors.verticalCenter:  mapPolygonVisuals.verticalCenter// QGroundControl.flightMapPosition//tempangleText.verticalCenter
+                        //                        anchors.verticalCenter:  mapPolygonVisuals.verticalCenter// QGroundControl.flightMapPosition//tempangleText.verticalCenter
+                        anchors.verticalCenter:  missionItem.gridEntryLocation//.flightMapPosition//tempangleText.verticalCenter
 
-//                        iconSource:			    "/res/wind-roseBlack.svg"
+                        //                        iconSource:			    "/res/wind-roseBlack.svg"
                         iconSource:			   qgcPal.globalTheme === QGCPalette.Light ? "/res/wind-roseBlack.svg" : "/res/wind-rose.svg"
-                          visible: 	   agriHeader.checked
+                        visible: 	   agriHeader.checked
                         //                        visible: 			   _vehicle.fixedWing
 
                         onClicked: {
                             windRosePie.angle = Number(agriAngleText.text)
 
-                                                        var cords =QGroundControl.flightMapPosition// windRoseButton.mapToItem(_root, 0, 0)
-                                                        windRosePie.popup(cords.x , cords.y )//+ windRoseButton.height / 2)+ windRoseButton.width / 2
-//                            var cords = windRoseButton.mapToItem(_root, 0, 0)
-//                            windRosePie.popup(cords.x + windRoseButton.width / 2, cords.y + windRoseButton.height / 2)
+                            //                                                        var cords =QGroundControl.flightMapPosition// windRoseButton.mapToItem(_root, 0, 0)
+                            //                                                        windRosePie.popup(cords.x , cords.y )//+ windRoseButton.height / 2)+ windRoseButton.width / 2
+                            var cords = windRoseButton.mapToItem(_root, 0, 0)
+                            windRosePie.popup(cords.x + windRoseButton.width / 2, cords.y + windRoseButton.height / 2)
                         }
                     }
                 }
@@ -779,52 +792,52 @@ Rectangle {
                 //						   onClicked:		   missionItem.refly90Degrees = checked
                 //						   Layout.columnSpan:  2
                 //					   }
-			   QGCLabel {
-				   wrapMode:			   Text.WordWrap
-				   text:				   qsTr("选择基准参数:")
-				   Layout.preferredWidth:  parent.width
-				   Layout.columnSpan:	   2
-			   }
-//                QGCRadioButton {
-//                    id:					   agrifixedAltitudeRadio
-//                    text:				   qsTr("固定高度")
-//                    checked: 			   !!missionItem.fixedValueIsAltitude.value
-//                    exclusiveGroup:		   fixedValueGroup
-//                    onClicked:			   missionItem.fixedValueIsAltitude.value = 1
-//                }
+                QGCLabel {
+                    wrapMode:			   Text.WordWrap
+                    text:				   qsTr("选择基准参数:")
+                    Layout.preferredWidth:  parent.width
+                    Layout.columnSpan:	   2
+                }
+                //                QGCRadioButton {
+                //                    id:					   agrifixedAltitudeRadio
+                //                    text:				   qsTr("固定高度")
+                //                    checked: 			   !!missionItem.fixedValueIsAltitude.value
+                //                    exclusiveGroup:		   fixedValueGroup
+                //                    onClicked:			   missionItem.fixedValueIsAltitude.value = 1
+                //                }
 
-//                FactTextField {
-//                    fact:				   missionItem.gridAltitude
-//                    enabled: 			   agrifixedAltitudeRadio.checked
-//                    Layout.fillWidth:	   true
-//                }
-			   QGCRadioButton {
-			        id:					   agrifixedAltitudeRadio
+                //                FactTextField {
+                //                    fact:				   missionItem.gridAltitude
+                //                    enabled: 			   agrifixedAltitudeRadio.checked
+                //                    Layout.fillWidth:	   true
+                //                }
+                QGCRadioButton {
+                    id:					   agrifixedAltitudeRadio
                     text:				   qsTr("固定高度")
-//                    checked: 			   !!missionItem.fixedValueIsAltitude.value
-                     exclusiveGroup:		   fixedValueGroup
-//                    onClicked:			   missionItem.fixedValueIsAltitude.value = 1
-			   }
-			   FactTextField {
-				fact: 			missionItem.gridAltitude
-//				   fact:			   QGroundControl.settingsManager.appSettings.defaultMissionItemAltitude
-				   Layout.fillWidth:   true
-			   }
+                    //                    checked: 			   !!missionItem.fixedValueIsAltitude.value
+                    exclusiveGroup:		   fixedValueGroup
+                    //                    onClicked:			   missionItem.fixedValueIsAltitude.value = 1
+                }
+                FactTextField {
+                    fact: 			missionItem.gridAltitude
+                    //				   fact:			   QGroundControl.settingsManager.appSettings.defaultMissionItemAltitude
+                    Layout.fillWidth:   true
+                }
                 QGCRadioButton {
                     id:					   agrifixedGroundResolutionRadio
                     text:				   qsTr("固定速度")
-//                    checked: 			   !missionItem.fixedValueIsAltitude.value
+                    //                    checked: 			   !missionItem.fixedValueIsAltitude.value
                     exclusiveGroup:		   fixedValueGroup
-//                    onClicked:			   missionItem.fixedValueIsAltitude.value = 0
-//                    visible:    !_missionVehicle.vtol
+                    //                    onClicked:			   missionItem.fixedValueIsAltitude.value = 0
+                    //                    visible:    !_missionVehicle.vtol
                     checked:    missionItem.speedSection.specifyFlightSpeed
-                    onClicked:   missionItem.speedSection.specifyFlightSpeed = checked   
+                    onClicked:   missionItem.speedSection.specifyFlightSpeed = checked
                 }
-//                FactTextField {
-//                    fact:				   missionItem.groundResolution
-//                    enabled: 			   agrifixedGroundResolutionRadio.checked
-//                    Layout.fillWidth:	   true
-//                }
+                //                FactTextField {
+                //                    fact:				   missionItem.groundResolution
+                //                    enabled: 			   agrifixedGroundResolutionRadio.checked
+                //                    Layout.fillWidth:	   true
+                //                }
                 FactTextField {
 
                     fact:               missionItem.speedSection.flightSpeed
@@ -946,7 +959,7 @@ Rectangle {
         SectionHeader {
             id:     statsHeader
             text:   qsTr("统计") }
-		//植保模式参数
+        //植保模式参数
         Grid {
             columns:        2
             columnSpacing:  ScreenTools.defaultFontPixelWidth
