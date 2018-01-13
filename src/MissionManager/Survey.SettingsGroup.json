@@ -39,6 +39,16 @@
     "defaultValue":     30
 },
 {
+	"name": 			"AgriSprayPWM",
+	"shortDescription": "PWM of agrimode.",
+	"type": 			"double",
+	"decimalPlaces":	0,
+	"min":				0,
+	"units":			"%",
+	"defaultValue": 	0
+},
+
+{
     "name":             "TurnaroundDist",
     "shortDescription": "Amount of additional distance to add outside the grid area for vehicle turnaround.",
     "type":             "double",

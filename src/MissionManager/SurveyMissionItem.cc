@@ -73,6 +73,11 @@ const char* SurveyMissionItem::cameraOrientationLandscapeName = "CameraOrientati
 const char* SurveyMissionItem::fixedValueIsAltitudeName =       "FixedValueIsAltitude";
 const char* SurveyMissionItem::cameraName =                     "Camera";
 
+#ifdef Agri_SprayPWM
+const char* SurveyMissionItem::agriSprayPWMName =                "AgriSprayPWM";
+#endif
+
+
 SurveyMissionItem::SurveyMissionItem(Vehicle* vehicle, QObject* parent)
     : ComplexMissionItem(vehicle, parent)
     , _sequenceNumber(0)
@@ -111,6 +116,9 @@ SurveyMissionItem::SurveyMissionItem(Vehicle* vehicle, QObject* parent)
     , _fixedValueIsAltitudeFact         (settingsGroup, _metaDataMap[fixedValueIsAltitudeName])
     , _cameraFact                       (settingsGroup, _metaDataMap[cameraName])
 
+#ifdef Agri_SprayPWM
+	, _agriSprayPWMFact					(settingsGroup, _metaDataMap[agriSprayPWMName])
+#endif
 
 
 
@@ -565,7 +573,7 @@ QList<QPointF> SurveyMissionItem::_convexPolygon(const QList<QPointF>& polygon)
     // First point must be lowest y-coordinate point
     for (int i=1; i<workPolygon.count(); i++) {
         if (workPolygon[i].y() < workPolygon[0].y()) {
-            _swapPoints(workPolygon, i, 0);
+            _swapPoints(workPolygon, i, 0); 		//交换数组内两个数值
         }
     }
 
@@ -1148,7 +1156,7 @@ int SurveyMissionItem::_appendWaypointToMission(QList<MissionItem*>& items, int 
                                         0.0,
 //Start G201710131281 ChenYang   change Yaw 
 #ifdef AgriTrigger_TOCamera
-                                        trunline ? 1:0,
+                                        trunline ? 0:std::numeric_limits<double>::quiet_NaN(),
 #else                                        
                                         std::numeric_limits<double>::quiet_NaN(),//G201710131281 ChenYang  Yaw unchanged
 #endif
@@ -1188,7 +1196,7 @@ int SurveyMissionItem::_appendWaypointToMission(QList<MissionItem*>& items, int 
                                false,                       // isCurrentItem
                                missionItemParent);
         items.append(item);
-#if 0
+#ifdef AgriTrigger_TOCamera
         // This generates too many commands. Pulling out for now, to see if image quality is still high enough.
         item = new MissionItem(seqNum++,
                                MAV_CMD_NAV_DELAY,
@@ -1200,7 +1208,7 @@ int SurveyMissionItem::_appendWaypointToMission(QList<MissionItem*>& items, int 
                                false,              // isCurrentItem
                                missionItemParent);
         items.append(item);
-#endif
+#endif  //end of AgriTrigger_TOCamera
     default:
         break;
     }
@@ -1266,9 +1274,7 @@ bool SurveyMissionItem::_appendMissionItemsWorker(QList<MissionItem*>& items, QO
 #ifdef AgriTrigger_TOCamera
 					 trunline=false;
 #endif	
-
         }
-
         // Add polygon entry point
         if (!_nextTransectCoord(segment, pointIndex++, coord)) {
             return  false;
@@ -1280,7 +1286,6 @@ bool SurveyMissionItem::_appendMissionItemsWorker(QList<MissionItem*>& items, QO
         }
         seqNum = _appendWaypointToMission(items, seqNum, coord, cameraTrigger, missionItemParent);
         firstWaypointTrigger = false;
-
         // Add internal hover and capture points
         if (_hoverAndCaptureEnabled()) {
             int lastHoverAndCaptureIndex = segment.count() - 1 - (_hasTurnaround() ? 1 : 0);
@@ -1292,7 +1297,6 @@ bool SurveyMissionItem::_appendMissionItemsWorker(QList<MissionItem*>& items, QO
                 seqNum = _appendWaypointToMission(items, seqNum, coord, CameraTriggerHoverAndCapture, missionItemParent);
             }
         }
-
         // Add polygon exit point
         if (!_nextTransectCoord(segment, pointIndex++, coord)) {
             return false;
@@ -1314,7 +1318,11 @@ bool SurveyMissionItem::_appendMissionItemsWorker(QList<MissionItem*>& items, QO
     if (((hasRefly && buildRefly) || !hasRefly) && _imagesEverywhere()) {
         // Turn off camera at end of survey
         MissionItem* item = new MissionItem(seqNum++,
+#ifdef AgriTrigger_TOCamera
+											MAV_CMD_DO_SET_SERVO,//	?MAV_CMD_DO_SET_SERVO:MAV_CMD_DO_SET_CAM_TRIGG_DIST,
+#else
                                             MAV_CMD_DO_SET_CAM_TRIGG_DIST,
+#endif
                                             MAV_FRAME_MISSION,
                                             0.0,                    // trigger distance (off)
                                             0, 0, 0, 0, 0, 0,       // param 2-7 unused

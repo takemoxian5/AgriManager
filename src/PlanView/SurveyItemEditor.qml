@@ -743,12 +743,12 @@ Rectangle {
                         //                        visible: 			   _vehicle.fixedWing
 
                         onClicked: {
-                            windRosePie.angle = Number(agriAngleText.text)
+                            windRosePie.angle = Number(tempangleText.text)
 
                             //                                                        var cords =QGroundControl.flightMapPosition// windRoseButton.mapToItem(_root, 0, 0)
                             //                                                        windRosePie.popup(cords.x , cords.y )//+ windRoseButton.height / 2)+ windRoseButton.width / 2
-                            var cords = windRoseButton.mapToItem(_root, 0, 0)
-                            windRosePie.popup(cords.x + windRoseButton.width / 2, cords.y + windRoseButton.height / 2)
+                            var cords = agriwindRoseButton.mapToItem(_root, 0, 0)
+                            windRosePie.popup(cords.x + agriwindRoseButton.width / 2, cords.y + agriwindRoseButton.height / 2)
                         }
                     }
                 }
@@ -882,6 +882,7 @@ Rectangle {
                     visible:                _vehicle.fixedWing
 
                     onClicked: {
+		      	windRosePie.angle = Number(manualAngleText.text)
                         var cords = manualWindRoseButton.mapToItem(_root, 0, 0)
                         windRosePie.popup(cords.x + manualWindRoseButton.width / 2, cords.y + manualWindRoseButton.height / 2)
                     }
@@ -942,7 +943,7 @@ Rectangle {
             }
 
             QGCCheckBox {
-                text:               qsTr("添加垂直方向扫描")
+                text:               qsTr("添加垂直扫描")
                 checked:            missionItem.refly90Degrees
                 onClicked:          missionItem.refly90Degrees = checked
                 Layout.columnSpan:  2
